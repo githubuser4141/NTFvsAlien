@@ -93,16 +93,8 @@
 	.=..()
 	set_jump_component()
 	mecha_update_components()
-	RegisterSignal(src, COMSIG_MECH_BROKEN, PROC_REF(mecha_break))
-
-/obj/vehicle/sealed/mecha/ntf/proc/mecha_break()
-	SIGNAL_HANDLER
-	Destroy()
-	return
 
 /obj/vehicle/sealed/mecha/ntf/Destroy()
-	.=..()
-
 	var/turf/dropzone = get_turf(src)
 	var/obj/item/mecha_parts/mecha_pieces/piece
 
@@ -118,6 +110,8 @@
 	if(legs)
 		piece.forceMove(dropzone)
 		QDEL_NULL(legs)
+
+	return ..()
 
 /obj/vehicle/sealed/mecha/ntf/proc/set_jump_component(duration = 0.2 SECONDS, cooldown = 1 SECONDS, cost = 8, height = 8, sound = null, flags = JUMP_SHADOW, jump_pass_flags = null)
 	var/list/arg_list = list(duration, cooldown, cost, height, sound, flags, jump_pass_flags)

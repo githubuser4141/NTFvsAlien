@@ -31,15 +31,7 @@
 	max_integrity = COMPONENT_HEALTH_500
 
 	integrity_failure = 0.5
-/*
-/obj/item/mecha_parts/mecha_pieces/mecha_body/deconstruct(disassembled = TRUE, mob/living/blame_mob)
-	.=..()
-	if(!is_functional && chassis)
-		SEND_SIGNAL(src, COMSIG_MECH_BROKEN, chassis)
-	is_functional = FALSE
-	enclosed = FALSE
-	return ..()
-*/
+
 /obj/item/mecha_parts/mecha_pieces/mecha_body/proc/add_engine(obj/item/mecha_parts/exosuit_engine/engine_add)
 	QDEL_NULL(engine)
 	if(engine_add)

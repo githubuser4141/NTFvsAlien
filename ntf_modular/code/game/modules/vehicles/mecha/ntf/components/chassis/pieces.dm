@@ -21,7 +21,10 @@
 
 	var/hardpoints = list(HARDPOINT_RIGHT_SHOULDER, HARDPOINT_LEFT_SHOULDER, HARDPOINT_HEAD, HARDPOINT_BACK)
 
-	integrity_failure = 0.5
+	integrity_failure
+
+/obj/item/mecha_parts/mecha_pieces/proc/set_failure()
+	integrity_failure = (max_integrity / 2)
 
 /obj/item/mecha_parts/mecha_pieces/Initialize(mapload)
 	.=..()
@@ -29,6 +32,7 @@
 		sensors_profile = new sensors_profile()
 	RegisterSignal(src, COMSIG_MECH_PART_DESTROYED, PROC_REF(break_component), src)
 	RegisterSignal(src, COMSIG_MECH_PART_DISABLED, PROC_REF(set_broken_states), src)
+	set_failure()
 
 /obj/item/mecha_parts/mecha_pieces/proc/start_repair(mob/user)
 	if(is_functional || inserted_materials)
@@ -93,11 +97,10 @@
 /obj/item/mecha_parts/mecha_pieces/proc/break_component() // when integrity reaches zero
 	SIGNAL_HANDLER
 	if(type_of_piece == MECHA_BODY && is_attached && chassis)
-		SEND_SIGNAL(src, COMSIG_MECH_BROKEN, chassis)
+		chassis.Destroy()
 		return
 	if(is_attached && chassis)
 		is_attached = FALSE
-		chassis = null
 		var/turf/dropzone = get_turf(src)
 		forceMove(dropzone)
 		visible_message(span_warning("[src] is violently sheared off of the [chassis]!"))
@@ -111,6 +114,7 @@
 			if(MECHA_LEGS)
 				chassis.legs = null
 		chassis.update_icon()
+		chassis = null
 
 /obj/item/mecha_parts/mecha_pieces/obj_break(damage_flag)
 	if(chassis && is_functional)
@@ -120,7 +124,7 @@
 			set_broken_states()
 
 /obj/item/mecha_parts/mecha_pieces/deconstruct(disassembled = TRUE, mob/living/blame_mob)
-	if(!is_functional)
+	if(is_functional)
 		return
 	SEND_SIGNAL(src, COMSIG_MECH_PART_DESTROYED, chassis)
 
@@ -128,12 +132,6 @@
 	. = ..()
 	if(!is_functional)
 		. += span_warning("It looks broken!")
-
-/obj/item/mecha_parts/mecha_pieces/obj_destruction(damage_amount, damage_type, damage_flag, mob/living/blame_mob)
-	SHOULD_CALL_PARENT(FALSE)
-	if(!is_functional)
-		return
-	return ..()
 
 #undef NEEDS_WELD
 #undef NEEDS_MATS
