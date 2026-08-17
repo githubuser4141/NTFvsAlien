@@ -7,6 +7,7 @@
 	equipment_slot = MECHA_UTILITY
 	mech_flags = EXOSUIT_MODULE_NTF|EXOSUIT_MODULE_COMBAT
 	ability_to_grant = /datum/action/vehicle/sealed/mecha/mech_zoom
+	slot = MECHA_HEAD
 
 /obj/item/mecha_parts/mecha_equipment/ability/zoom/try_attach_part(mob/user, obj/vehicle/sealed/mecha/M, attach_right = FALSE)
 	if(istype(M, /obj/vehicle/sealed/mecha/ntf/marauder))
@@ -23,6 +24,7 @@
 	max_fuel = 50000
 	rechargerate = 15
 	var/is_battery = FALSE
+	slot = MECHA_BODY
 
 /obj/item/mecha_parts/mecha_equipment/generator/exosuit/Initialize(mapload)
 	.=..()
@@ -59,6 +61,7 @@
 	size = 4
 	duration = 5
 	ability_to_grant = /datum/action/vehicle/sealed/mecha/mech_smoke/exosuit
+	slot = MECHA_BODY
 
 /obj/item/mecha_parts/mecha_equipment/ability/night_vision/exosuit
 	name = "night vision module"
@@ -67,6 +70,7 @@
 	equipment_slot = MECHA_UTILITY
 	mech_flags = EXOSUIT_MODULE_NTF|EXOSUIT_MODULE_COMBAT
 	ability_to_grant = /datum/action/vehicle/sealed/mecha/light_amplification
+	slot = MECHA_HEAD
 
 /obj/item/mecha_parts/mecha_equipment/passenger_compartment
 	name = "passenger_compartment"
@@ -74,6 +78,7 @@
 	icon_state = "compartment"
 	equipment_slot = MECHA_UTILITY
 	var/increase_occupant_count_by = 1
+	slot = MECHA_BODY
 
 /obj/item/mecha_parts/mecha_equipment/passenger_compartment/attach(obj/vehicle/sealed/mecha/M, attach_right = FALSE)
 	.=..()
@@ -101,3 +106,4 @@
 	energy_drain = 0
 	range = MECHA_MELEE|MECHA_RANGED
 	mech_flags = EXOSUIT_MODULE_NTF|EXOSUIT_MODULE_COMBAT
+	slot = MECHA_BODY

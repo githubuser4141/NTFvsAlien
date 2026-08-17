@@ -99,17 +99,27 @@
 	var/obj/item/mecha_parts/mecha_pieces/piece
 
 	if(head)
+		piece = head
 		piece.forceMove(dropzone)
+		piece.throw_at(dropzone)
 		QDEL_NULL(head)
 	if(body)
+		piece = body
 		piece.forceMove(dropzone)
+		piece.throw_at(dropzone)
 		QDEL_NULL(body)
 	if(arms)
+		piece = arms
 		piece.forceMove(dropzone)
+		piece.throw_at(dropzone)
 		QDEL_NULL(arms)
 	if(legs)
+		piece = legs
 		piece.forceMove(dropzone)
+		piece.throw_at(dropzone)
 		QDEL_NULL(legs)
+
+	visible_message(span_warning("The [src] grinds to a halt, disintegrating into a pile of components!"))
 
 	return ..()
 

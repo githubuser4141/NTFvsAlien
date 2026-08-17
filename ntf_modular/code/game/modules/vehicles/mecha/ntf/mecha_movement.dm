@@ -4,6 +4,9 @@
 	if(!is_engine_running())
 		balloon_alert(user, "engine off!")
 		return FALSE
+	if(!legs || !legs.is_functional)
+		balloon_alert(user, "malfunction!")
+		return FALSE
 	.=..()
 
 /*

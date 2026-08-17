@@ -250,9 +250,9 @@
 		engine_stop()
 		return
 	if(engine_power_pool && !engine_power_pool.is_fully_charged())
-		var/transfer_amount = min(engine_power_generated, starter_battery.charge)
+		var/transfer_amount = min((engine_power_generated*GLOB.CELLRATE), starter_battery.charge)
 		if(starter_battery.use(transfer_amount))
-			engine_power_pool.give(transfer_amount * GLOB.CELLRATE)
+			engine_power_pool.give(transfer_amount)
 
 /obj/item/mecha_parts/exosuit_engine/electric/attempt_engine_start()
 	if(is_running)

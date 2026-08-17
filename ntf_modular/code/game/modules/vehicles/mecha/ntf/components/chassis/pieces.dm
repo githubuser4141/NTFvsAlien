@@ -103,6 +103,7 @@
 		is_attached = FALSE
 		var/turf/dropzone = get_turf(src)
 		forceMove(dropzone)
+		throw_at(dropzone)
 		visible_message(span_warning("[src] is violently sheared off of the [chassis]!"))
 		switch(type_of_piece)
 			if(MECHA_HEAD)
@@ -113,6 +114,9 @@
 				chassis.arms = null
 			if(MECHA_LEGS)
 				chassis.legs = null
+		for(var/obj/item/mecha_parts/mecha_equipment/equipment as anything in chassis.flat_equipment)
+			if(equipment.slot == type_of_piece)
+				equipment.detach()
 		chassis.update_icon()
 		chassis = null
 

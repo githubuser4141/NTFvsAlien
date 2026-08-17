@@ -16,9 +16,12 @@
 	var/overlay_location = RIGHT_HAND_SLOT
 	///What level of power is required to activate
 	var/required_power_level = IGNITION_AUX
+	///Slot that's required to function for the equipment to function
+	var/slot = MECHA_ARMS
+	///
 
 /obj/item/mecha_parts/mecha_equipment/action_checks(atom/target, ignore_cooldown = FALSE)
-	if(!isexosuit(src))
+	if(!isexosuit(chassis))
 		return TRUE
 	var/current_power = chassis.check_power(chassis.power_status)
 	if(!current_power)
@@ -29,4 +32,28 @@
 		for(var/occupant in chassis.occupants)
 			balloon_alert(occupant, "Insufficient power")
 		return
+
+	var/obj/vehicle/sealed/mecha/ntf/ntf_chassis = chassis
+
+	switch(slot)
+		if(MECHA_ARMS)
+			if(!ntf_chassis.arms || !ntf_chassis.arms.is_functional)
+				for(var/occupant in ntf_chassis.occupants)
+					balloon_alert(occupant, "malfunction!")
+				return
+		if(MECHA_HEAD)
+			if(!ntf_chassis.head || !ntf_chassis.head.is_functional)
+				for(var/occupant in ntf_chassis.occupants)
+					balloon_alert(occupant, "malfunction!")
+				return
+		if(MECHA_BODY)
+			if(!ntf_chassis.body || !ntf_chassis.body.is_functional)
+				for(var/occupant in ntf_chassis.occupants)
+					balloon_alert(occupant, "malfunction!")
+				return
+		if(MECHA_LEGS)
+			if(!ntf_chassis.legs || !ntf_chassis.legs.is_functional)
+				for(var/occupant in ntf_chassis.occupants)
+					balloon_alert(occupant, "malfunction!")
+				return
 	.=..()
