@@ -29,15 +29,26 @@
 ///// Power stuff /////
 ///////////////////////
 /obj/vehicle/sealed/mecha/proc/has_charge(amount)
+	if(isexosuit(src))
+		var/obj/vehicle/sealed/mecha/ntf/ntf_chassis
+		return ntf_chassis.has_charge(amount)
 	return (get_charge()>=amount)
 
 /obj/vehicle/sealed/mecha/proc/get_charge()
+	if(isexosuit(src))
+		var/obj/vehicle/sealed/mecha/ntf/ntf_chassis
+		return ntf_chassis.get_charge()
 	return cell?.charge
 
 /obj/vehicle/sealed/mecha/proc/use_power(amount)
+	if(isexosuit(src))
+		var/obj/vehicle/sealed/mecha/ntf/ntf_chassis
+		return ntf_chassis.use_power(amount)
 	return (get_charge() && cell.use(amount))
 
 /obj/vehicle/sealed/mecha/proc/give_power(amount)
+	if(isexosuit(src))
+		return
 	if(!isnull(get_charge()))
 		cell.give(amount)
 		return TRUE

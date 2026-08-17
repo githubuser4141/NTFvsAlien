@@ -232,12 +232,11 @@
 #define FUEL_PER_CAN_POUR 100
 
 #define REVS_OFF 0
-#define REVS_LOW 200
-#define REVS_MID 600 // Watts?
-#define REVS_HIGH 1200
+#define REVS_LOW 10000
+#define REVS_MID 40000 // Watts?
+#define REVS_HIGH 80000
 
-#define OUTPUT_MECH "mech_output"
-#define OUTPUT_WALL "wall_output"
+#define POWERPOOL_HALF "powerpool_half"
 
 // Body hardpoints
 

@@ -54,10 +54,14 @@
 /obj/vehicle/sealed/mecha/ntf/try_damage_component(damage, def_zone, damage_type = BRUTE, armor_type = null, effects = TRUE, attack_dir, armour_penetration = 0, mob/living/blame_mob)
 	var/list/gear = list()
 	switch(def_zone)
+/*
 		if(BODY_ZONE_L_ARM)
 			gear = equip_by_category[MECHA_L_ARM]
 		if(BODY_ZONE_R_ARM)
 			gear = equip_by_category[MECHA_R_ARM]
+*/
+		if(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
+			gear = list(arms)
 		if(BODY_ZONE_HEAD)
 			gear = list(head)
 		if(BODY_ZONE_CHEST, BODY_ZONE_PRECISE_GROIN)

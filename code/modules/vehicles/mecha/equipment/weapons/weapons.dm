@@ -178,22 +178,30 @@
 	set_target(null)
 	current_firer = null
 
-///does any effects and changes to the projectile when it is fired
 /obj/item/mecha_parts/mecha_equipment/weapon/proc/apply_weapon_modifiers(atom/movable/projectile/projectile_to_fire, mob/firer)
 	projectile_to_fire.shot_from = src
 	if(istype(chassis, /obj/vehicle/sealed/mecha/combat/greyscale))
 		var/obj/vehicle/sealed/mecha/combat/greyscale/grey = chassis
 		var/datum/mech_limb/head/head = grey.limbs[MECH_GREY_HEAD]
 		if(head)
-			projectile_to_fire.accuracy *= head.accuracy_mod //todo: we can probably just make the accuracy_mod apply directly to the gun like attachments do
+			projectile_to_fire.accuracy *= head.accuracy_mod
 	projectile_to_fire.projectile_speed = projectile_to_fire.ammo.shell_speed
+
+	var/obj/vehicle/sealed/mecha/ntf/ntf_chassis = chassis
+	var/datum/exo_sensors/sensors = ntf_chassis?.get_sensors()
+	if(sensors)
+		projectile_to_fire.damage *= sensors.damage_mod
+		projectile_to_fire.accuracy *= sensors.accuracy_mod
+		projectile_to_fire.proj_max_range *= sensors.max_range_mod
+		projectile_to_fire.ammo.accurate_range_min += 1
+
 	if(!isliving(firer))
 		return
 	var/mob/living/living_firer = firer
 	if(living_firer.IsStaggered())
 		projectile_to_fire.damage *= STAGGER_DAMAGE_MULTIPLIER
 		projectile_to_fire.accuracy *= STAGGER_ACCURACY_MULTIPLIER
-		projectile_to_fire.ammo.accurate_range_min += 1 //could make it less accurate in melee for xenos
+		projectile_to_fire.ammo.accurate_range_min += 1
 	if((projectile_to_fire.ammo.ammo_behavior_flags & AMMO_IFF))
 		projectile_to_fire.iff_signal = firer.get_iff_signal()
 	if(firer)
@@ -363,6 +371,7 @@
 		projectiles = projectiles + projectiles_cache
 		projectiles_cache = 0
 	log_message("Rearmed [src].", LOG_MECHA)
+	playsound(src, 'sound/weapons/guns/interact/mortar_reload.ogg', 25, 1)
 	for(var/mob/occupant AS in chassis.occupants)
 		occupant.hud_used.update_ammo_hud(src, hud_icons, projectiles)
 	return TRUE

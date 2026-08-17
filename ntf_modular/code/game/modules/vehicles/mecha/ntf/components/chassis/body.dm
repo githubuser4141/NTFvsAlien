@@ -25,7 +25,7 @@
 	var/can_be_vaulted = FALSE
 
 	var/enclosed = TRUE
-	var/show_pilot_body = FALSE
+	var/show_pilot_body = HIDE_PILOT
 
 	var/engine_to_add = /obj/item/mecha_parts/exosuit_engine
 	var/obj/item/mecha_parts/exosuit_engine/engine
@@ -41,7 +41,8 @@
 /obj/item/mecha_parts/mecha_pieces/mecha_body/deconstruct(disassembled = TRUE, mob/living/blame_mob)
 	.=..()
 	if(!is_functional && chassis)
-		chassis.Destroy()
+//		chassis.Destroy()
+		SEND_SIGNAL(src, COMSIG_MECH_BROKEN, chassis)
 	is_functional = FALSE
 	enclosed = FALSE
 	return ..()
@@ -52,6 +53,7 @@
 		engine_add.forceMove(src)
 		engine = engine_add
 	engine = new engine_to_add(src)
+	engine.body = src
 
 /obj/item/mecha_parts/mecha_pieces/mecha_body/Initialize(mapload)
 	if(engine_to_add)
@@ -107,7 +109,7 @@
 	desc = "A sleek, lightweight cabin built primarily out of plastic and aluminium, for fast movement and excellent visibility."
 	icon_state = "light_body"
 	base_icon_state = "light_body"
-	repair_materials = list(STEEL = PRIMARY_REPAIR_AMT, GLASS = TERTIARY_REPAIR_AMT)
+	repair_materials = list(STEEL = PRIMARY_REPAIR_AMT, RGLASS = TERTIARY_REPAIR_AMT)
 	max_integrity = BODY_HEALTH_200
 	soft_armor = list(MELEE = 25, BULLET = 5, LASER = 10, ENERGY = 5, BOMB = 0, BIO = 0, FIRE = 75, ACID = 75)
 	wrecked_profile = /datum/wrecked_body/light
@@ -131,7 +133,7 @@
 	desc = "The NanoTrasen Katamari series cockpits have won a massive tender by SCG few years back. No one is sure why, but these terrible things keep popping up on every government facility."
 	icon_state = "pod_body"
 	base_icon_state = "pod_body"
-	repair_materials = list(STEEL = PRIMARY_REPAIR_AMT, GLASS = TERTIARY_REPAIR_AMT)
+	repair_materials = list(STEEL = PRIMARY_REPAIR_AMT, RGLASS = TERTIARY_REPAIR_AMT)
 	max_integrity = BODY_HEALTH_300
 	soft_armor = list(MELEE = 40, BULLET = 5, LASER = 15, ENERGY = 0, BOMB = 5, BIO = 0, FIRE = 100, ACID = 95)
 	wrecked_profile = /datum/wrecked_body/light

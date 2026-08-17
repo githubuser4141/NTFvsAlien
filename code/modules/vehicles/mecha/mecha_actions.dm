@@ -52,6 +52,7 @@
 /datum/action/vehicle/sealed/mecha/mech_toggle_lights
 	name = "Toggle Lights"
 	action_icon_state = "mech_lights_off"
+	var/power_cost = 5
 
 /datum/action/vehicle/sealed/mecha/mech_toggle_lights/action_activate(trigger_flags)
 	if(!owner || !chassis || !(owner in chassis.occupants))
@@ -60,6 +61,10 @@
 	if(!(chassis.mecha_flags & HAS_HEADLIGHTS))
 		chassis.balloon_alert(owner, "the mech lights are broken!")
 		return
+	var/turning_on = !(chassis.mecha_flags & LIGHTS_ON)
+	if(turning_on && !chassis.use_power(power_cost))
+		chassis.balloon_alert(owner, "No power")
+	return
 	chassis.mecha_flags ^= LIGHTS_ON
 	if(chassis.mecha_flags & LIGHTS_ON)
 		action_icon_state = "mech_lights_on"
@@ -152,6 +157,7 @@
 	keybinding_signals = list(
 		KEYBINDING_NORMAL = COMSIG_MECHABILITY_RELOAD,
 	)
+	var/power_cost = 10
 
 /datum/action/vehicle/sealed/mecha/reload/action_activate(trigger_flags)
 	if(!owner || !chassis || !(owner in chassis.occupants))
@@ -160,6 +166,9 @@
 	for(var/i in chassis.equip_by_category)
 		if(!istype(chassis.equip_by_category[i], /obj/item/mecha_parts/mecha_equipment))
 			continue
+		if(!chassis.use_power(power_cost))
+			chassis.balloon_alert(owner, "No power")
+			return
 		INVOKE_ASYNC(chassis.equip_by_category[i], TYPE_PROC_REF(/obj/item/mecha_parts/mecha_equipment, attempt_rearm), owner)
 
 /datum/action/vehicle/sealed/mecha/repairpack
@@ -168,11 +177,15 @@
 	keybinding_signals = list(
 		KEYBINDING_NORMAL = COMSIG_MECHABILITY_REPAIRPACK,
 	)
+	var/power_cost = 10
 
 /datum/action/vehicle/sealed/mecha/repairpack/action_activate(trigger_flags)
 	if(!can_repair())
 		return
 
+	if(!chassis.use_power(power_cost))
+		chassis.balloon_alert(owner, "No power")
+		return
 	chassis.balloon_alert(owner, "Repairing...")
 	chassis.canmove = FALSE
 	chassis.equipment_disabled = TRUE

@@ -31,10 +31,13 @@
 	var/charge_delay = 0
 	///used to track what set of overlays to use to display charge level
 	var/charge_overlay = "cell"
+	///if the cell is full when it initializes
+	var/starts_full = TRUE
 
 /obj/item/cell/Initialize(mapload)
 	. = ..()
-	charge = maxcharge
+	if(starts_full)
+		charge = maxcharge
 	if(self_recharge)
 		START_PROCESSING(SSobj, src)
 

@@ -71,7 +71,7 @@
 		if(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			thing_to_remove = LEGS
 	if(!thing_to_remove)
-		balloon_alert(user, "no thing to remove!")
+		balloon_alert(user, "nothing to remove!")
 		return
 
 	var/obj/item/mecha_parts/mecha_pieces/piece = get_mecha_part(thing_to_remove)
@@ -81,7 +81,6 @@
 
 	balloon_alert(user, "removing [thing_to_remove]...")
 	if(!do_after(user, 5 SECONDS, target = src))
-//		I.play_tool_sound
 		balloon_alert(user, "interrupted!")
 		return
 
@@ -141,39 +140,30 @@
 /obj/vehicle/sealed/mecha/ntf/proc/update_body_values()
 	if(!body)
 		return
-
-	max_integrity = body.max_integrity
+	max_integrity = body?.max_integrity
 	obj_integrity = max_integrity
-	max_drivers = body.occupants_allowed[DRIVER]
-	max_occupants = body.occupants_allowed[PASSENGER]
-	exit_delay = body.exit_delay
-	enter_delay = body.enter_delay
-	cockpit_armor = body.cockpit_armor
-	enclosed = body.enclosed
+	max_drivers = body?.occupants_allowed[DRIVER]
+	max_occupants = body?.occupants_allowed[PASSENGER]
+	exit_delay = body?.exit_delay
+	enter_delay = body?.enter_delay
+	cockpit_armor = body?.cockpit_armor
+	enclosed = body?.enclosed
 
 /obj/vehicle/sealed/mecha/ntf/proc/update_arms_values()
 	if(!arms)
 		return
-
 	force = arms.melee_damage
-//	melee_delay = the_arms.action_delay
 
 /obj/vehicle/sealed/mecha/ntf/proc/update_legs_values()
 	if(!legs)
 		return
-
-	move_delay = legs.movement_delay
-	pivot_step = legs.pivot_step
-	tank_turns = legs.tank_turns
-	allow_diagonal_movement = legs.can_move_diagonally
-	stepsound = legs.step_sound
-	turnsound = legs.turn_sound
-//	can_strafe = legs.can_strafe
+	move_delay = legs?.movement_delay
+	pivot_step = legs?.pivot_step
+	tank_turns = legs?.tank_turns
+	allow_diagonal_movement = legs?.can_move_diagonally
+	stepsound = legs?.step_sound
+	turnsound = legs?.turn_sound
 
 /obj/vehicle/sealed/mecha/ntf/proc/update_head_values()
 	if(!head)
 		return
-
-//	sensors_profile = head.sensors_profile
-//	if(sensors_profile)
-//

@@ -83,7 +83,7 @@
 		return
 	TIMER_COOLDOWN_START(chassis, COOLDOWN_MECHA_EQUIPMENT(type), cooldown)
 	chassis.smoke_system.start()
-
+/*
 // Lights, now uses power toggle
 
 /datum/action/vehicle/sealed/mecha/mech_toggle_lights/exosuit
@@ -111,7 +111,7 @@
 	playsound(chassis,'sound/mecha/brass_skewer.ogg', 40, TRUE)
 	chassis.log_message("Toggled lights [(chassis.mecha_flags & LIGHTS_ON)?"on":"off"].", LOG_MECHA)
 	update_button_icon()
-
+*/
 // Jumping
 
 /datum/component/jump/exosuit

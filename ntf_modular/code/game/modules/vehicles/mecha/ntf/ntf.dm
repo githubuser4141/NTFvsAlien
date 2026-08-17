@@ -26,6 +26,7 @@
 
 	pixel_x = -8
 
+
 /// How resistant the hull is to projectile penetration
 	var/cockpit_armor = COCKPIT_TOUGHENED
 
@@ -44,6 +45,7 @@
 	var/underlying_icon_state = "backbone"
 
 	var/sensors_profile = EXOSUIT_SENSORS_NONE
+	var/is_using_sensors = FALSE
 
 	var/pilot_coverage = 100
 	var/list/pilot_overlays
@@ -53,10 +55,28 @@
 	var/obj/item/mecha_parts/mecha_pieces/mecha_legs/legs
 	var/obj/item/mecha_parts/mecha_pieces/mecha_arms/arms
 
+/obj/vehicle/sealed/mecha/ntf/examine(mob/user)
+	.=..()
+
+	if(LAZYLEN(occupants) && (!hatch_status == HATCH_CLOSED || !hatch_status == HATCH_LOCKED || !body.show_pilot_body == ALWAYS_SHOW_PILOT))
+		to_chat(user, "It is being piloted by [english_list(occupants)].")
+
+
+	if(arms)
+		. += "The [arms] have [arms.obj_integrity * 100 / max_integrity] integrity remaining."
+	if(legs)
+		. += "The [legs] have [legs.obj_integrity * 100 / max_integrity] integrity remaining."
+	if(body)
+		. += "The [body] have [body.obj_integrity * 100 / max_integrity] integrity remaining."
+	if(head)
+		. += "The [head] have [head.obj_integrity * 100 / max_integrity] integrity remaining."
+
+	return ..()
+
 /obj/vehicle/sealed/mecha/ntf/generate_actions()
 	initialize_passenger_action_type(/datum/action/vehicle/sealed/mecha/mech_eject)
 	initialize_controller_action_type(/datum/action/vehicle/sealed/mecha/mech_toggle_internals, VEHICLE_CONTROL_SETTINGS)
-	initialize_controller_action_type(/datum/action/vehicle/sealed/mecha/mech_toggle_lights/exosuit, VEHICLE_CONTROL_SETTINGS)
+	initialize_controller_action_type(/datum/action/vehicle/sealed/mecha/mech_toggle_lights, VEHICLE_CONTROL_SETTINGS)
 	initialize_controller_action_type(/datum/action/vehicle/sealed/mecha/mech_view_stats, VEHICLE_CONTROL_SETTINGS)
 	initialize_controller_action_type(/datum/action/vehicle/sealed/mecha/strafe, VEHICLE_CONTROL_DRIVE)
 	initialize_controller_action_type(/datum/action/vehicle/sealed/mecha/reload, VEHICLE_CONTROL_EQUIPMENT)
@@ -75,6 +95,12 @@
 	.=..()
 	set_jump_component()
 	mecha_update_components()
+	RegisterSignal(src, COMSIG_MECH_BROKEN, PROC_REF(mecha_break))
+
+/obj/vehicle/sealed/mecha/ntf/proc/mecha_break()
+	SIGNAL_HANDLER
+	Destroy()
+	return
 
 /obj/vehicle/sealed/mecha/ntf/proc/set_jump_component(duration = 0.2 SECONDS, cooldown = 1 SECONDS, cost = 8, height = 8, sound = null, flags = JUMP_SHADOW, jump_pass_flags = null)
 	var/list/arg_list = list(duration, cooldown, cost, height, sound, flags, jump_pass_flags)
@@ -126,7 +152,7 @@
 
 /// Passenger loading (via drag-drop)
 
-/obj/vehicle/sealed/mecha/auto_assign_occupant_flags(mob/M)
+/obj/vehicle/sealed/mecha/ntf/auto_assign_occupant_flags(mob/M)
 	if(loading_passenger)
 		return
 	..()
@@ -139,7 +165,7 @@
 	M.update_sight()
 	return ..()
 
-/obj/vehicle/sealed/mecha/MouseDrop_T(mob/living/passenger, mob/user)
+/obj/vehicle/sealed/mecha/ntf/MouseDrop_T(mob/living/passenger, mob/user)
 	if(!ishuman(passenger) || passenger == user)
 		return ..()
 	if(!Adjacent(user))
@@ -157,3 +183,17 @@
 	if(occupant_amount() >= max_occupants || is_occupant(passenger) || QDELETED(src))
 		return ..()
 	moved_inside(passenger, is_passenger = TRUE)
+
+/obj/vehicle/sealed/mecha/ntf/process()
+	run_power_loads()
+
+/obj/vehicle/sealed/mecha/ntf/proc/run_power_loads()
+	if(mecha_flags & LIGHTS_ON && !use_engine_power(5))
+		force_lights_off("insufficient power!")
+	if(light_amplification)
+		for(var/mob/occupant as anything in occupants)
+			var/datum/action/vehicle/sealed/mecha/light_amplification/act = locate(/datum/action/vehicle/sealed/mecha/light_amplification) in occupant.actions
+			if(!use_engine_power(act.power_cost))
+				act?.stop_nightvision(act.owner)
+	if(is_using_sensors)
+		get_sensors()
