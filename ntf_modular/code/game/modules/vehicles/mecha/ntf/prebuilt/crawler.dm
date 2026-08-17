@@ -7,4 +7,5 @@
 		legs = new /obj/item/mecha_parts/mecha_pieces/mecha_legs/quadlegs(src)
 	if(!body)
 		body = new /obj/item/mecha_parts/mecha_pieces/mecha_body/crawler(src)
+	attach_components()
 	.=..()

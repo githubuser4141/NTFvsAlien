@@ -142,6 +142,7 @@ GLOBAL_LIST_INIT(plasteel_radial_images, list(
 GLOBAL_LIST_INIT(plasteel_recipes, list( \
 	/obj/structure/barricade/folding = new /datum/stack_recipe("folding plasteel barricade", /obj/structure/barricade/folding, BUILD_COST_PLASTEEL_CADE_FOLDABLE, time = 8 SECONDS, crafting_flags = CRAFT_CHECK_DIRECTION | CRAFT_ON_SOLID_GROUND, skill_req = SKILL_CONSTRUCTION_PLASTEEL), \
 	/obj/structure/barricade/solid/plasteel = new /datum/stack_recipe("plasteel barricade", /obj/structure/barricade/solid/plasteel, BUILD_COST_PLASTEEL_CADE, time = 8 SECONDS, crafting_flags = CRAFT_CHECK_DIRECTION | CRAFT_ON_SOLID_GROUND, skill_req = SKILL_CONSTRUCTION_PLASTEEL), \
+	/obj/item/mecha_parts/chassis/ntf = new /datum/stack_recipe("exosuit frame", /obj/item/mecha_parts/chassis/ntf, 20, time = 10 SECONDS, crafting_flags = CRAFT_CHECK_DIRECTION | CRAFT_ON_SOLID_GROUND, skill_req = SKILL_CONSTRUCTION_PLASTEEL), \
 ))
 
 /obj/item/stack/sheet/plasteel/select_radial(mob/user)

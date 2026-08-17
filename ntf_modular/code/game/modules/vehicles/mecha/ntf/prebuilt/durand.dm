@@ -14,4 +14,5 @@
 		head = new /obj/item/mecha_parts/mecha_pieces/mecha_head/heavy(src)
 	if(!body)
 		body = new /obj/item/mecha_parts/mecha_pieces/mecha_body/combat(src)
+	attach_components()
 	.=..()

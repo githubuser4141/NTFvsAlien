@@ -14,4 +14,5 @@
 		head = new /obj/item/mecha_parts/mecha_pieces/mecha_head/loader(src)
 	if(!body)
 		body = new /obj/item/mecha_parts/mecha_pieces/mecha_body/loader(src)
+	attach_components()
 	.=..()

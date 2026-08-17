@@ -12,7 +12,7 @@
 
 	layer = MECH_ARM_LAYER
 
-	max_integrity = 100
+	max_integrity = COMPONENT_HEALTH_100
 	soft_armor = list(MELEE = 25, BULLET = 25, LASER = 25, ENERGY = 10, BOMB = 5, BIO = 0, FIRE = 50, ACID = 50)
 
 /obj/item/mecha_parts/mecha_pieces/mecha_arms/loader
@@ -24,7 +24,7 @@
 	melee_damage = 20
 	action_delay = 15
 	action_power_usage = 10
-	max_integrity = 50
+	max_integrity = COMPONENT_HEALTH_50
 	w_class = WEIGHT_CLASS_BULKY
 	soft_armor = list(MELEE = 40, BULLET = 15, LASER = 15, ENERGY = 5, BOMB = 5, BIO = 0, FIRE = 50, ACID = 50)
 
@@ -36,7 +36,7 @@
 //	melee_sound = 'sound/mecha/mech_punch_fast.ogg'
 	action_delay = 10
 	action_power_usage = 10
-	max_integrity = 35
+	max_integrity = COMPONENT_HEALTH_50 - 15
 	soft_armor = list(MELEE = 25, BULLET = 5, LASER = 10, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 50, ACID = 50)
 
 /obj/item/mecha_parts/mecha_pieces/mecha_arms/heavy
@@ -48,7 +48,7 @@
 	melee_damage = 30
 	action_delay = 20
 	action_power_usage = 60
-	max_integrity = 100
+	max_integrity = COMPONENT_HEALTH_100
 	soft_armor = list(MELEE = 70, BULLET = 60, LASER = 50, ENERGY = 10, BOMB = 25, BIO = 0, FIRE = 50, ACID = 50)
 
 /obj/item/mecha_parts/mecha_pieces/mecha_arms/combat
@@ -58,5 +58,5 @@
 	repair_materials = list(STEEL = SECONDARY_REPAIR_AMT, PLASTEEL = TERTIARY_REPAIR_AMT)
 	action_delay = 10
 	action_power_usage = 50
-	max_integrity = 75
+	max_integrity = COMPONENT_HEALTH_100 - 25
 	soft_armor = list(MELEE = 50, BULLET = 40, LASER = 30, ENERGY = 10, BOMB = 15, BIO = 0, FIRE = 50, ACID = 50)

@@ -102,13 +102,21 @@
 
 /obj/vehicle/sealed/mecha/ntf/Destroy()
 	.=..()
+
+	var/turf/dropzone = get_turf(src)
+	var/obj/item/mecha_parts/mecha_pieces/piece
+
 	if(head)
+		piece.forceMove(dropzone)
 		QDEL_NULL(head)
 	if(body)
+		piece.forceMove(dropzone)
 		QDEL_NULL(body)
 	if(arms)
+		piece.forceMove(dropzone)
 		QDEL_NULL(arms)
 	if(legs)
+		piece.forceMove(dropzone)
 		QDEL_NULL(legs)
 
 /obj/vehicle/sealed/mecha/ntf/proc/set_jump_component(duration = 0.2 SECONDS, cooldown = 1 SECONDS, cost = 8, height = 8, sound = null, flags = JUMP_SHADOW, jump_pass_flags = null)

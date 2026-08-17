@@ -11,7 +11,7 @@
 	var/can_move_diagonally = TRUE
 	var/step_sound = 'sound/mecha/mechstep.ogg'
 	var/turn_sound = 'sound/mecha/mechturn.ogg'
-	max_integrity = 200
+	max_integrity = COMPONENT_HEALTH_200
 
 	var/flip_position = FRONT_POSITION
 
@@ -25,7 +25,7 @@
 	movement_delay = 2
 	turning_delay = 3
 	stability = 50
-	max_integrity = 200
+	max_integrity = COMPONENT_HEALTH_200
 	pivot_step = TRUE
 	tank_turns = TRUE
 	can_strafe = FALSE
@@ -41,7 +41,7 @@
 	movement_delay = 3
 	turning_delay = 1.5
 	stability = 30
-	max_integrity = 200
+	max_integrity = COMPONENT_HEALTH_200
 	tank_turns = TRUE
 	can_move_diagonally = FALSE
 	soft_armor = list(MELEE = 70, BULLET = 60, LASER = 50, ENERGY = 10, BOMB = 15, BIO = 0, FIRE = 75, ACID = 75)
@@ -52,7 +52,7 @@
 	movement_delay = 1.5
 	turning_delay = 1
 	stability = 20
-	max_integrity = 150
+	max_integrity = COMPONENT_HEALTH_100 + 50
 	soft_armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 10, BOMB = 10, BIO = 0, FIRE = 50, ACID = 50)
 
 /obj/item/mecha_parts/mecha_pieces/mecha_legs/light_legs
@@ -61,7 +61,7 @@
 	movement_delay = 1
 	turning_delay = 1
 	stability = 10
-	max_integrity = 35
+	max_integrity = COMPONENT_HEALTH_50 - 15
 	soft_armor = list(MELEE = 25, BULLET = 5, LASER = 10, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 25, ACID = 25)
 
 /obj/item/mecha_parts/mecha_pieces/mecha_legs/quadlegs
@@ -70,7 +70,7 @@
 	movement_delay = 2.5
 	turning_delay = 0.5
 	stability = 75
-	max_integrity = 125
+	max_integrity = COMPONENT_HEALTH_100 + 25
 	flip_position = SIDE_POSITION
 	pivot_step = TRUE
 	soft_armor = list(MELEE = 40, BULLET = 30, LASER = 40, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 75, ACID = 50)
@@ -81,7 +81,7 @@
 	movement_delay = 1.5
 	turning_delay = 1.5
 	stability = 50
-	max_integrity = 100
+	max_integrity = COMPONENT_HEALTH_100
 	pivot_step = TRUE
 	flip_position = SIDE_POSITION
 	step_sound = 'ntf_modular/sound/effects/engine.ogg'
@@ -94,7 +94,7 @@
 	movement_delay = 3
 	turning_delay = 2
 	stability = 30
-	max_integrity = 100
+	max_integrity = COMPONENT_HEALTH_100
 	soft_armor = list(MELEE = 50, BULLET = 40, LASER = 40, ENERGY = 0, BOMB = 5, BIO = 0, FIRE = 50, ACID = 50)
 
 /obj/item/mecha_parts/mecha_pieces/mecha_legs/ultra
@@ -103,5 +103,5 @@
 	movement_delay = 2
 	turning_delay = 2
 	stability = 15
-	max_integrity = 150
+	max_integrity = COMPONENT_HEALTH_100 + 50
 	soft_armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 15, BOMB = 10, BIO = 0, FIRE = 50, ACID = 50)

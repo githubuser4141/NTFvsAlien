@@ -6,5 +6,6 @@
 #define COMSIG_DAYLIGHT_NIGHT_START "daylight_night_start"
 #define COMSIG_DAYLIGHT_UPDATED "daylight_updated"
 #define COMSIG_MECH_BROKEN "mech_broken"
-#define COMSIG_MECH_PART_BROKEN "mech_part_broken"
+#define COMSIG_MECH_PART_DESTROYED "mech_part_broken"
 #define COMSIG_MECH_INSUFFICIENT_POWER "mech_insufficient_power"
+#define COMSIG_MECH_PART_DISABLED "mech_part_failed"

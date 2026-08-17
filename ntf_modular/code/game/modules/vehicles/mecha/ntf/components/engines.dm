@@ -267,7 +267,7 @@
 /obj/item/mecha_parts/exosuit_engine/proc/use_power(amount)
 	if(!is_functional)
 		return FALSE
-	if(starter_battery && body.chassis && body.chassis.power_status == IGNITION_AUX)
+	if(starter_battery && body.chassis.power_status == IGNITION_AUX)
 		return starter_battery.use(amount)
 	if(!engine_power_pool || engine_power_pool.charge < amount)
 		return FALSE

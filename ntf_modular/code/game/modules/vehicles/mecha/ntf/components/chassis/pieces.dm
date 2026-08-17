@@ -21,11 +21,14 @@
 
 	var/hardpoints = list(HARDPOINT_RIGHT_SHOULDER, HARDPOINT_LEFT_SHOULDER, HARDPOINT_HEAD, HARDPOINT_BACK)
 
+	integrity_failure = 0.5
+
 /obj/item/mecha_parts/mecha_pieces/Initialize(mapload)
 	.=..()
 	if(sensors_profile)
 		sensors_profile = new sensors_profile()
-	RegisterSignal(src, COMSIG_MECH_PART_BROKEN, PROC_REF(set_broken_states), src)
+	RegisterSignal(src, COMSIG_MECH_PART_DESTROYED, PROC_REF(break_component), src)
+	RegisterSignal(src, COMSIG_MECH_PART_DISABLED, PROC_REF(set_broken_states), src)
 
 /obj/item/mecha_parts/mecha_pieces/proc/start_repair(mob/user)
 	if(is_functional || inserted_materials)
@@ -76,24 +79,50 @@
 			update_icon()
 			repair_state = initial(repair_state)
 
-/obj/item/mecha_parts/mecha_pieces/proc/set_broken_states() // sets -broken description and icon
+/obj/item/mecha_parts/mecha_pieces/proc/set_broken_states() // sets -broken description and icon, when obj_break
 	SIGNAL_HANDLER
-//	if(is_functional)
-//		return
 	if(!base_icon_state)
 		base_icon_state = icon_state
 	icon_state = "[base_icon_state]-broken"
+	is_functional = FALSE
+	repair_state = NEEDS_MATS
 	update_icon()
 	if(is_attached)
 		chassis.update_icon()
 
+/obj/item/mecha_parts/mecha_pieces/proc/break_component() // when integrity reaches zero
+	SIGNAL_HANDLER
+	if(type_of_piece == MECHA_BODY && is_attached && chassis)
+		SEND_SIGNAL(src, COMSIG_MECH_BROKEN, chassis)
+		return
+	if(is_attached && chassis)
+		is_attached = FALSE
+		chassis = null
+		var/turf/dropzone = get_turf(src)
+		forceMove(dropzone)
+		visible_message(span_warning("[src] is violently sheared off of the [chassis]!"))
+		switch(type_of_piece)
+			if(MECHA_HEAD)
+				chassis.head = null
+			if(MECHA_BODY)
+				chassis.body = null
+			if(MECHA_ARMS)
+				chassis.arms = null
+			if(MECHA_LEGS)
+				chassis.legs = null
+		chassis.update_icon()
+
+/obj/item/mecha_parts/mecha_pieces/obj_break(damage_flag)
+	if(chassis && is_functional)
+		SEND_SIGNAL(src, COMSIG_MECH_PART_DISABLED, chassis)
+	else
+		if(!chassis)
+			set_broken_states()
+
 /obj/item/mecha_parts/mecha_pieces/deconstruct(disassembled = TRUE, mob/living/blame_mob)
 	if(!is_functional)
 		return
-	SEND_SIGNAL(src, COMSIG_MECH_PART_BROKEN, chassis)
-	is_functional = FALSE
-//	set_broken_states()
-	repair_state = NEEDS_MATS
+	SEND_SIGNAL(src, COMSIG_MECH_PART_DESTROYED, chassis)
 
 /obj/item/mecha_parts/mecha_pieces/examine(mob/user)
 	. = ..()
