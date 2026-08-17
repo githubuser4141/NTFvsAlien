@@ -47,6 +47,8 @@
 
 			mecha_update_components()
 
+			piece_to_add.is_attached = TRUE
+			piece_to_add.chassis = src
 			to_chat(user, span_notice("You install the [piece_to_add] into [src]."))
 
 	return ..()
@@ -94,6 +96,8 @@
 
 	set_mecha_part(thing_to_remove, null)
 	user.put_in_hands(piece)
+	piece.is_attached = FALSE
+	piece.chassis = null
 	mecha_update_components()
 	to_chat(user, span_notice("You remove the [thing_to_remove] from [src]."))
 	return TRUE

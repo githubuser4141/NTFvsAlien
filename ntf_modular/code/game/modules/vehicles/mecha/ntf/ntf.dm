@@ -39,8 +39,6 @@
 	var/hatch_location = FRONT_POSITION
 	var/flip_status = NOT_FLIPPED
 
-	var/mech_terrain_status
-
 	var/underlying_icon = 'icons/mecha/mech_construct.dmi'
 	var/underlying_icon_state = "backbone"
 
@@ -101,6 +99,17 @@
 	SIGNAL_HANDLER
 	Destroy()
 	return
+
+/obj/vehicle/sealed/mecha/ntf/Destroy()
+	.=..()
+	if(head)
+		QDEL_NULL(head)
+	if(body)
+		QDEL_NULL(body)
+	if(arms)
+		QDEL_NULL(arms)
+	if(legs)
+		QDEL_NULL(legs)
 
 /obj/vehicle/sealed/mecha/ntf/proc/set_jump_component(duration = 0.2 SECONDS, cooldown = 1 SECONDS, cost = 8, height = 8, sound = null, flags = JUMP_SHADOW, jump_pass_flags = null)
 	var/list/arg_list = list(duration, cooldown, cost, height, sound, flags, jump_pass_flags)

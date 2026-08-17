@@ -6,10 +6,15 @@
 
 /obj/vehicle/sealed/mecha/ntf/get_charge()
 	return has_charge()
+/*
+/obj/vehicle/sealed/mecha/ntf/give_power(amount)
+	if(!isnull(get_charge()))
+		cell.give(amount)
+		return TRUE
+	return FALSE
+*/
 
 /obj/vehicle/sealed/mecha/ntf/proc/use_engine_power(amount)
-//	if(!istype(src, /obj/vehicle/sealed/mecha/ntf))
-//		return TRUE
 	if(!body?.engine)
 		return FALSE
 	if(!body.engine.is_running && power_status != IGNITION_AUX || !body.engine.is_functional)

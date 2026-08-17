@@ -18,6 +18,8 @@
 	var/required_power_level = IGNITION_AUX
 
 /obj/item/mecha_parts/mecha_equipment/action_checks(atom/target, ignore_cooldown = FALSE)
+	if(!isexosuit(src))
+		return TRUE
 	var/current_power = chassis.check_power(chassis.power_status)
 	if(!current_power)
 		for(var/occupant in chassis.occupants)

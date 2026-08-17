@@ -64,7 +64,7 @@
 	var/turning_on = !(chassis.mecha_flags & LIGHTS_ON)
 	if(turning_on && !chassis.use_power(power_cost))
 		chassis.balloon_alert(owner, "No power")
-	return
+		return
 	chassis.mecha_flags ^= LIGHTS_ON
 	if(chassis.mecha_flags & LIGHTS_ON)
 		action_icon_state = "mech_lights_on"

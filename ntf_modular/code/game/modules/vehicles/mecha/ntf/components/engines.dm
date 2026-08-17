@@ -105,7 +105,7 @@
 
 /obj/item/mecha_parts/exosuit_engine/process()
 	if(is_functional && is_running)
-		var/current_consumption = fuel_consumption * (revs / 10000)
+		var/current_consumption = fuel_consumption * (revs / 7500)
 		if(fuel_amount >= current_consumption)
 			fuel_amount = max(0, fuel_amount - current_consumption)
 
@@ -113,7 +113,7 @@
 			engine_power_pool.give(revs * GLOB.CELLRATE)
 
 		if(starter_battery && !starter_battery.is_fully_charged())
-			var/starter_charge_amount = (revs * 0.25)
+			var/starter_charge_amount = revs * 0.25
 			if(engine_power_pool && engine_power_pool.use(starter_charge_amount))
 				starter_battery.give(starter_charge_amount * GLOB.CELLRATE)
 
@@ -267,25 +267,19 @@
 /obj/item/mecha_parts/exosuit_engine/proc/use_power(amount)
 	if(!is_functional)
 		return FALSE
-	if(!engine_power_pool)
-		return FALSE
-	if(engine_power_pool.charge < amount)
-		return FALSE
 	if(starter_battery && body.chassis && body.chassis.power_status == IGNITION_AUX)
 		return starter_battery.use(amount)
+	if(!engine_power_pool || engine_power_pool.charge < amount)
+		return FALSE
 	return engine_power_pool.use(amount)
 
 /obj/item/mecha_parts/exosuit_engine/proc/has_power(amount)
-	if(!is_functional)// || !is_running)
+	if(!is_functional || !engine_power_pool)
 		return FALSE
-	if(!engine_power_pool)
-		return FALSE
-	return engine_power_pool.charge// >= amount
+	return engine_power_pool.charge
 
 /obj/item/mecha_parts/exosuit_engine/proc/give_power(amount)
-	if(!is_functional)// || !is_running)
-		return FALSE
-	if(!engine_power_pool)
+	if(!is_functional || !engine_power_pool)
 		return FALSE
 	return engine_power_pool.give(amount)
 

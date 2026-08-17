@@ -12,7 +12,7 @@
 	var/type_of_piece = MECHA_BODY
 //	integrity_failure = 0.5
 	destroy_sound = 'sound/effects/glassbr2.ogg'
-	var/obj/vehicle/sealed/mecha/chassis
+	var/obj/vehicle/sealed/mecha/ntf/chassis
 	var/datum/exo_sensors/sensors_profile
 	var/extra_overlays = FALSE
 	var/list/inserted_materials
@@ -20,13 +20,7 @@
 	var/power_usage = 0
 
 	var/hardpoints = list(HARDPOINT_RIGHT_SHOULDER, HARDPOINT_LEFT_SHOULDER, HARDPOINT_HEAD, HARDPOINT_BACK)
-/*
-/obj/item/mecha_parts/mecha_pieces/process()
-	if(!is_functional || !use_engine_power(power_usage))
-		stop_processing()
-		return
 
-*/
 /obj/item/mecha_parts/mecha_pieces/Initialize(mapload)
 	.=..()
 	if(sensors_profile)

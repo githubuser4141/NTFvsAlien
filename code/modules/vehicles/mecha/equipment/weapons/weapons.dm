@@ -187,13 +187,14 @@
 			projectile_to_fire.accuracy *= head.accuracy_mod
 	projectile_to_fire.projectile_speed = projectile_to_fire.ammo.shell_speed
 
-	var/obj/vehicle/sealed/mecha/ntf/ntf_chassis = chassis
-	var/datum/exo_sensors/sensors = ntf_chassis?.get_sensors()
-	if(sensors)
-		projectile_to_fire.damage *= sensors.damage_mod
-		projectile_to_fire.accuracy *= sensors.accuracy_mod
-		projectile_to_fire.proj_max_range *= sensors.max_range_mod
-		projectile_to_fire.ammo.accurate_range_min += 1
+	if(isexosuit(chassis))
+		var/obj/vehicle/sealed/mecha/ntf/ntf_chassis = chassis
+		var/datum/exo_sensors/sensors = ntf_chassis?.get_sensors()
+		if(sensors)
+			projectile_to_fire.damage *= sensors.damage_mod
+			projectile_to_fire.accuracy *= sensors.accuracy_mod
+			projectile_to_fire.proj_max_range *= sensors.max_range_mod
+			projectile_to_fire.ammo.accurate_range_min += 1
 
 	if(!isliving(firer))
 		return
